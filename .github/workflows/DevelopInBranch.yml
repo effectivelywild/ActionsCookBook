@@ -22,3 +22,5 @@ jobs:
         uses: actions/checkout@v4.1.0
       - name: Lint
         uses: devops-actions/actionlint@v0.1.2
+      - name: Bad Code
+        run: echo "PR title is '${{ github.event.pull_request.title }}'."
