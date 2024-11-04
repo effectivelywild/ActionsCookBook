@@ -6,11 +6,19 @@ on:
     workflow_dispatch: 
 
 jobs:
-    job1:
-        runs-on: ubuntu-latest
-        steps:
-            - run: | 
-                echo "Workflow triggered in branch '${{ github.ref }}."
-                echo "Workflow triggered by event '${{ github.event_name }}."
-                echo "Workflow triggered in branch '${{ github.actor }}."
-                
+  job1:
+    name: job1
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Job information
+        run: | 
+          echo "Workflow triggered in branch '${{ github.ref }}."
+          echo "Workflow triggered by event '${{ github.event_name }}."
+          echo "Workflow triggered in branch '${{ github.actor }}."
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
+      - name: Lint
+        uses: devops-actions/actionlint@v0.1.2
