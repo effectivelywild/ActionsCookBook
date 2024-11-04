@@ -20,4 +20,36 @@ jobs:
         uses: actions/checkout@v4.1.0
       - name: Display repo
         run: tree
+  test:
+    runs-on: ubuntu-latest
+    environment: Test
+    needs: first_job
+    steps: 
+      - name: Greet the user
+        run: | 
+          echo "Hello ${{ vars.WHO_TO_GREET }} from ${{ github.actor }}."
+          sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g') 
+          echo "My secret is '$sec'."
+  load-test:
+    runs-on: ubuntu-latest
+    environment: Load-Test
+    needs: first_job
+    steps: 
+      - name: Greet the user
+        run: | 
+          echo "Hello ${{ vars.WHO_TO_GREET }} from ${{ github.actor }}."
+          sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g') 
+          echo "My secret is '$sec'."
+  production:
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://writeabout.net
+    needs: [test, load-test]
+    steps: 
+      - name: Greet the user
+        run: | 
+          echo "Hello ${{ vars.WHO_TO_GREET }} from ${{ github.actor }}."
+          sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g') 
+          echo "My secret is '$sec'."
         
